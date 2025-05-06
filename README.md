@@ -66,22 +66,26 @@ The implementation has been organized into modular Python files:
 ## Usage Instructions
 
 1. **Train the model**:
-   ```
+
+   ```bash
    python main.py --train
    ```
 
 2. **Validate model performance**:
-   ```
+
+   ```bash
    python main.py --validate
    ```
 
 3. **Submit to Trexquant API**:
-   ```
+
+   ```bash
    python main.py --api-test
    ```
 
 4. **For GPU acceleration**:
-   ```
+
+   ```bash
    # Install CUDA-enabled PyTorch
    ./install_cuda_pytorch.bat
    

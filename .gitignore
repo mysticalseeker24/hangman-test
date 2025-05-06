@@ -20,6 +20,16 @@ ENV/
 env.bak/
 venv.bak/
 
+# Logs and large files
+*.log
+
+# Model checkpoints
+*.pt
+*.pth
+
+# Jupyter notebook files (migrated to Python scripts)
+*.ipynb
+
 # Project specific
 merge_notebook.py
 notebook_parts/
