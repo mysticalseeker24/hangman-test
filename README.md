@@ -23,14 +23,14 @@ This directory contains the implementation of a Reinforcement Learning (RL) mode
 - **Input**: 761 dimensions (flattened state)
 - **Hidden Layers**: 256 units each, ReLU activation, dropout (0.3)
 - **Output**: 26 Q-values (one per letter)
-- **Parameters**: ~200,000
+- **Parameters**: ~267,546
 
 ### Training Process
 
 - **Episodes**: ~1.25M (5,000 epochs × 10 iterations/word × ~25,000 words)
 - **Curriculum Learning**: Progresses from short words (3–5 letters) to longer ones (up to 20)
 - **Optimizer**: Adam with learning rate 0.001, decayed by 0.1 every 1,000 epochs
-- **Target Network**: Updated every 50 epochs for stability
+- **Target Network**: Updated every 1,000 steps for stability
 
 ### Exploration Strategy
 
@@ -39,28 +39,62 @@ This directory contains the implementation of a Reinforcement Learning (RL) mode
 
 ### Reward Structure
 
-- **Correct Guess**: +1 + 0.5 × new_letters_revealed
-- **Incorrect Guess**: −2 − 0.5 × letter_frequency
-- **Repeated Guess**: −4
-- **Win**: +10
-- **Loss**: −5
+- **Correct Guess**: +1.0 per letter revealed
+- **Incorrect Guess**: -1.0
+- **Repeated Guess**: -0.5
+- **Win**: +5.0 bonus
+- **Loss**: -2.0 additional penalty
 
 ### Performance
 
 - **Target Win Rate**: 70-80% (potentially 85% with tuning)
 - **Validation**: 200 simulated games with stratified sampling by word length
-- **API Integration**: Plays 100 practice games and 1,000 recorded games
 
-## Files
+## Code Structure
 
-- **qlearning_hangman_solver.ipynb**: Complete implementation of the Q-learning agent for Hangman
+The implementation has been organized into modular Python files:
+
+- `config.py`: Configuration parameters for training
+- `memory.py`: Replay buffer implementation
+- `environment.py`: Hangman game environment
+- `model.py`: Q-Network neural network definition
+- `agent.py`: Q-learning agent implementation
+- `api.py`: Trexquant API integration
+- `validate.py`: Model validation utilities
+- `main.py`: Main script for training, validation, and API submission
+
+## Usage Instructions
+
+1. **Train the model**:
+   ```
+   python main.py --train
+   ```
+
+2. **Validate model performance**:
+   ```
+   python main.py --validate
+   ```
+
+3. **Submit to Trexquant API**:
+   ```
+   python main.py --api-test
+   ```
+
+4. **For GPU acceleration**:
+   ```
+   # Install CUDA-enabled PyTorch
+   ./install_cuda_pytorch.bat
+   
+   # Verify CUDA setup
+   python verify_cuda.py
+   ```
 
 ## Requirements
 
 - Python 3.8+
-- PyTorch
+- PyTorch 2.0+
 - NumPy
-- Gym
 - Matplotlib
 - Requests
+- Gym
 - Scikit-learn
